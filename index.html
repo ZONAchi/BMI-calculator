@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        .from-all {
+            width: 300px;
+            height: 350px;
+            background-color: rgb(234, 237, 219);
+            border-radius: 20px;
+            margin: auto;
+            margin-bottom: 50px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .from-title {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-self: center;
+        }
+
+        label {
+            width: 100%;
+        }
+
+        #height,
+        #weight {
+            width: calc(100% - 40px);
+        }
+
+        #btn {
+            height: 30px;
+            background-color: rgb(254, 209, 84);
+            border-radius: 50px;
+            border-style: none;
+        }
+
+        #btn_clear{
+            width: 50px;
+            display: flex;
+            align-self: end;
+        }
+
+        .result {
+            font-size: 24px;
+            display: flex;
+            align-self: center;
+            line-height: 24px;
+            margin-top: 20px;
+        }
+
+        .mbi-level {
+            display: flex;
+        }
+
+        .level {
+            width: 100%;
+            background-color: rgb(254, 250, 243);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid rgb(202, 197, 190);
+        }
+
+        .level-item {
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid rgb(163, 159, 153);
+        }
+    </style>
+</head>
+
+<body>
+    <form class="from-all">
+        <span class="from-title">BMI計算機</span>
+        <label for="my_height">
+            <span>身高</span>
+            <input type="number" id="height" placeholder="請輸入身高(公分)">
+        </label>
+        <label for="my_weight">
+            <span>體重</span>
+            <input type="number" id="weight" placeholder="請輸入體重(公斤)">
+        </label>
+        <button id="btn" type="button">計算BMI</button>
+        <button id="btn_clear" type="button">清空</button>
+        <div class="result">
+            <span>你的BMI值：</span>
+            <span id="result"></span>
+        </div>
+
+    </form>
+    <div class="mbi-level">
+        <div class="level" id="level4">
+            <p class="level-item">BMI < 18.5</p>
+                    <p>「體重過輕」，需要多運動，均衡飲食，以增加體能，維持健康</p>
+        </div>
+        <div class="level" id="level3">
+            <p class="level-item"> 18.5 ≤ BMI < 24</p>
+                    <p> 恭喜！「健康體重」，要繼續保持！</p>
+        </div>
+        <div class="level" id="level2">
+            <p class="level-item"> 24 ≤ BMI < 27</p>
+                    <p> 「體重過重」了，要小心囉，趕快力行「健康體重管理」！</p>
+        </div>
+        <div class="level" id="level1">
+            <p class="level-item">BMI ≥ 27</p>
+            <p> 啊～「肥胖」，需要立刻力行「健康體重管理」囉！</p>
+        </div>
+    </div>
+    <script>
+        // 清空各結果底色
+        function clearbg() {
+            level1.style.backgroundColor = 'rgb(254, 250, 243)';
+            level2.style.backgroundColor = 'rgb(254, 250, 243)';
+            level3.style.backgroundColor = 'rgb(254, 250, 243)';
+            level4.style.backgroundColor = 'rgb(254, 250, 243)';
+        };
+        let btn = document.querySelector('#btn');
+        btn.addEventListener('click', function () {
+            let height = document.querySelector('#height').value;
+            let weight = document.querySelector('#weight').value;
+
+            let result = ('MBI=', parseFloat(weight) / (parseFloat(height) / 100 * parseFloat(height) / 100));
+            console.log('MAI=', result);
+
+            let show = document.querySelector('#result');
+            show.innerHTML = result.toFixed(2);
+
+            if (weight.length == 0 || height.length == 0) {
+                alert('請輸入身高體重');
+            };
+            // 執行具名函式
+            clearbg();
+
+            if (result >= 27) {
+                level1.style.backgroundColor = '#EB8A90';
+                console.log('肥胖');
+            } else if (result >= 24) {
+                level2.style.backgroundColor = '#F3BD87';
+                console.log('體重過重');
+            } else if (result >= 18.5) {
+                level3.style.backgroundColor = '#C9E47F';
+                console.log('健康體重');
+            } else if (result < 18.5 && result !== 0) {
+                level4.style.backgroundColor = '#F1DC97';
+                console.log('體重過輕');
+            }
+        });
+
+        let btn_clear = document.querySelector('#btn_clear');
+        btn_clear.addEventListener('click', function () {
+            height.value = '';
+            weight.value = '';
+            result.innerHTML = '';
+            clearbg();
+        });
+    </script>
+</body>
+
+</html>
